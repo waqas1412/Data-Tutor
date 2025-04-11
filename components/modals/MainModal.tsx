@@ -21,6 +21,7 @@ import EditBotModal from "./EditBotModal";
 import PerformanceModal from "./PerformanceModal";
 import UploadToAIQuill from "./UploadToAIQuill";
 import RoadmapModal from "./RoadmapModal";
+import DeleteChatModal from "./DeleteChatModal";
 
 function MainModal() {
   const { show, modalName, modalClose } = useMainModal();
@@ -42,11 +43,17 @@ function MainModal() {
             ? " overflow-hidden sm:w-[600px]"
             : modalName === "Support Modal"
             ? "p-4 sm:p-6 overflow-y-auto max-w-[1067px] max-h-[90vh]"
+            : modalName === "Delete Chat"
+            ? "p-3 sm:p-4 overflow-y-auto max-w-[320px] max-h-[90vh]"
             : "p-4 sm:p-6 overflow-y-auto max-w-[900px] max-h-[90vh]"
         }`}
       >
         {modalName !== "Upgrade" && (
-          <div className="flex justify-between items-center pb-6 mb-6 border-b border-primaryColor/30">
+          <div className={`flex justify-between items-center ${
+            modalName === "Delete Chat" 
+              ? "pb-2 mb-2" 
+              : "pb-6 mb-6"
+            } border-b border-primaryColor/30`}>
             <p className="font-medium ">{modalName}</p>
             <button onClick={modalClose}>
               <PiX className="text-xl" />
@@ -73,6 +80,7 @@ function MainModal() {
         {modalName === "Edit Your Bot" && <EditBotModal />}
         {modalName === "Performance" && <PerformanceModal />}
         {modalName === "Roadmap Images" && <RoadmapModal />}
+        {modalName === "Delete Chat" && <DeleteChatModal />}
       </div>
     </div>
   );

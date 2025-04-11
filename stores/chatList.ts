@@ -1,7 +1,7 @@
 import { demoChatData } from "@/constants/chats";
 import { create } from "zustand";
 import { v4 as uuidv4 } from "uuid";
-import { syncChatToSupabase, fetchUserChats } from "@/lib/supabase-helpers";
+import { syncChatToSupabase, fetchUserChats, deleteChatById } from "@/lib/supabase-helpers";
 import { useAuthStore } from "./authStore";
 import { subscribeToChatUpdates, subscribeToUserChats } from "@/lib/supabase-realtime";
 import { RealtimeChannel } from "@supabase/supabase-js";
@@ -71,6 +71,7 @@ type ChatHandlerType = {
   setIsStreaming: (isStreaming: boolean) => void;
   fetchUserChatsFromSupabase: () => Promise<void>;
   syncLocalChatsToSupabase: () => Promise<void>;
+  deleteChat: (chatId: string) => Promise<boolean>;
 } & RealtimeState;
 
 export const useChatHandler = create<ChatHandlerType>((set, get) => ({
@@ -293,6 +294,49 @@ export const useChatHandler = create<ChatHandlerType>((set, get) => ({
     } catch (error) {
       console.error('Error syncing chats to Supabase:', error);
     }
+  },
+  
+  deleteChat: async (chatId: string) => {
+    // Get the current user
+    const user = useAuthStore.getState().user;
+    
+    // If not logged in, handle chat deletion locally
+    if (!user) {
+      const storedData = localStorage.getItem(`chat-list-anonymous`);
+      if (!storedData) return false;
+      
+      // Parse the stored data
+      const parsedData: Chat[] = JSON.parse(storedData);
+      
+      // Filter out the chat to delete
+      const filteredChats = parsedData.filter(chat => chat.id !== chatId);
+      
+      // Save the updated list back to localStorage
+      localStorage.setItem(`chat-list-anonymous`, JSON.stringify(filteredChats));
+      
+      // Update the state with the filtered list
+      set({ 
+        chatList: filteredChats,
+        // If the deleted chat was the current chat, reset currentChatId
+        currentChatId: get().currentChatId === chatId ? null : get().currentChatId
+      });
+      
+      return true;
+    }
+    
+    // For logged-in users, delete the chat from Supabase
+    const success = await deleteChatById(chatId, user.id);
+    
+    if (success) {
+      // Update the local state to reflect the deletion
+      set(state => ({
+        chatList: state.chatList.filter(chat => chat.id !== chatId),
+        // If the deleted chat was the current chat, reset currentChatId
+        currentChatId: state.currentChatId === chatId ? null : state.currentChatId
+      }));
+    }
+    
+    return success;
   },
   
   handleSubmit: async (text, chatId) => {

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import {
   PiAlignLeft,
-  PiArchive,
   PiArrowUUpLeft,
   PiDeviceMobileCamera,
   PiDiamondsFour,
@@ -9,10 +8,8 @@ import {
   PiGear,
   PiLightning,
   PiMagnifyingGlass,
-  PiPencilLine,
   PiQuestion,
   PiRobot,
-  PiShareFat,
   PiTrash,
 } from "react-icons/pi";
 import Link from "next/link";
@@ -21,6 +18,7 @@ import { useChatHandler } from "@/stores/chatList";
 import { usePathname, useRouter } from "next/navigation";
 import { useSubscriptionStore } from "@/stores/subscriptionStore";
 import dynamic from "next/dynamic";
+import { useDeleteChat } from "./modals/DeleteChatModal";
 
 const SubscriptionOverlay = dynamic(() => import("@/app/components/SubscriptionOverlay"), {
   ssr: false,
@@ -47,6 +45,7 @@ function MainSidebar({ showSidebar, setShowSidebar }: MainSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const { hasActiveSubscription } = useSubscriptionStore();
+  const { setChatId } = useDeleteChat();
   
   // Initialize chats display
   useEffect(() => {
@@ -132,6 +131,20 @@ function MainSidebar({ showSidebar, setShowSidebar }: MainSidebarProps) {
   };
 
   const [showSubscriptionOverlay, setShowSubscriptionOverlay] = useState(false);
+
+  // Handle chat deletion - updated to use modal
+  const handleDeleteChat = (chatId: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent event bubbling
+    
+    // Close the more options menu
+    setShowMoreButton(NaN);
+    
+    // Set the chat ID to delete
+    setChatId(chatId);
+    
+    // Open the delete confirmation modal
+    modalOpen("Delete Chat");
+  };
 
   return (
     <>
@@ -221,10 +234,10 @@ function MainSidebar({ showSidebar, setShowSidebar }: MainSidebarProps) {
               <div className="flex flex-col gap-1 justify-start items-start w-full">
                 {displayedChats.map(({ id, title }, idx) => (
                   <div
-                    className={`flex justify-between items-center gap-2 hover:text-primaryColor rounded-xl duration-500 py-3 px-6 relative w-full ${
+                    className={`flex justify-between items-center gap-2 rounded-xl duration-500 py-3 px-6 relative w-full ${
                       pathname === `/chat/${id}` 
                         ? "text-white bg-primaryColor" 
-                        : "hover:bg-primaryColor/10"
+                        : "hover:text-primaryColor hover:bg-primaryColor/10"
                     }`}
                     key={id}
                   >
@@ -251,19 +264,10 @@ function MainSidebar({ showSidebar, setShowSidebar }: MainSidebarProps) {
                           : "invisible translate-y-2 opacity-0"
                       }`}
                     >
-                      <li className="flex justify-start items-center gap-1 py-2 px-3 rounded-lg border border-transparent hover:border-primaryColor/30 hover:bg-primaryColor/5 duration-300 cursor-pointer w-full">
-                        <PiPencilLine />
-                        <span>Rename</span>
-                      </li>
-                      <li className="flex justify-start items-center gap-1 py-2 px-3 rounded-lg border border-transparent hover:border-primaryColor/30 hover:bg-primaryColor/5 duration-300 cursor-pointer w-full">
-                        <PiShareFat />
-                        <span>Share</span>
-                      </li>
-                      <li className="flex justify-start items-center gap-1 py-2 px-3 rounded-lg border border-transparent hover:border-primaryColor/30 hover:bg-primaryColor/5 duration-300 cursor-pointer w-full">
-                        <PiArchive />
-                        <span>Archive</span>
-                      </li>
-                      <li className="flex justify-start items-center gap-1 py-2 px-3 rounded-lg border border-transparent hover:border-errorColor/30 hover:bg-errorColor/5 duration-300 cursor-pointer text-errorColor w-full">
+                      <li 
+                        className="flex justify-start items-center gap-1 py-2 px-3 rounded-lg border border-transparent hover:border-errorColor/30 hover:bg-errorColor/5 duration-300 cursor-pointer text-errorColor w-full"
+                        onClick={(e) => handleDeleteChat(id, e)}
+                      >
                         <PiTrash />
                         <span>Delete</span>
                       </li>
