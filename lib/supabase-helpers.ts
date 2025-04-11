@@ -349,4 +349,35 @@ export async function findOrCreateRoadmapChat(userId: string): Promise<Chat | nu
     console.error('Error in findOrCreateRoadmapChat:', error);
     return null;
   }
+}
+
+/**
+ * Delete a chat by ID
+ */
+export async function deleteChatById(
+  chatId: string,
+  userId: string
+): Promise<boolean> {
+  try {
+    if (!userId || !chatId) {
+      console.error('Cannot delete chat without valid chatId and userId');
+      return false;
+    }
+    
+    // Call the delete_chat RPC function
+    const { data, error } = await supabase.rpc('delete_chat', {
+      p_chat_id: chatId,
+      p_user_id: userId
+    });
+    
+    if (error) {
+      console.error('Error deleting chat:', error);
+      return false;
+    }
+    
+    return data === true;
+  } catch (error) {
+    console.error('Error in deleteChatById:', error);
+    return false;
+  }
 } 

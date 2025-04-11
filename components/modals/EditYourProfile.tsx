@@ -37,12 +37,12 @@ function EditProfileModal() {
       <div className=" grid grid-cols-12 gap-4">
         <InputFieldSecond
           className="col-span-12 sm:col-span-6"
-          placeholder="Theresa"
+          placeholder="Pipeline"
           title="First Name"
         />
         <InputFieldSecond
           className="col-span-12 sm:col-span-6"
-          placeholder="Webb"
+          placeholder="Penguin"
           title="Last Name"
         />
         <InputFieldSecond
