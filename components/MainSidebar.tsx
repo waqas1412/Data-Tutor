@@ -199,14 +199,14 @@ function MainSidebar({ showSidebar, setShowSidebar }: MainSidebarProps) {
                 <span className="text-sm">Roadmap</span>
               </button>
               <button
-                onClick={(e) => handleRestrictedNavigation("/explore", e)}
+                onClick={(e) => handleRestrictedNavigation("/interview-prep", e)}
                 className={`flex justify-start w-full py-3 px-6 items-center gap-2 rounded-xl transition-colors duration-300 text-left ${
-                  isActive("/explore")
+                  isActive("/interview-prep")
                     ? "text-white bg-primaryColor"
                     : "hover:text-primaryColor hover:bg-primaryColor/10"
                 }`}
               >
-                <PiDiamondsFour size={20} className={isActive("/explore") ? "" : "text-primaryColor"} />
+                <PiDiamondsFour size={20} className={isActive("/interview-prep") ? "" : "text-primaryColor"} />
                 <span className="text-sm">Interview Prep</span>
               </button>
             </div>
