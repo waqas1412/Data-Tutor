@@ -1,22 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { lessonData } from './lessonData';
 import LessonContent from './LessonContent';
 import LessonNavigation from './LessonNavigation';
 
 const LessonPanel: React.FC = () => {
   const [currentLessonId, setCurrentLessonId] = useState(1);
+  const contentRef = useRef<HTMLDivElement>(null);
   
   const currentLesson = lessonData.find(lesson => lesson.id === currentLessonId) || lessonData[0];
   
   const handlePrevious = () => {
     if (currentLessonId > 1) {
       setCurrentLessonId(currentLessonId - 1);
+      if (contentRef.current) {
+        contentRef.current.scrollTop = 0;
+      }
     }
   };
   
   const handleNext = () => {
     if (currentLessonId < lessonData.length) {
       setCurrentLessonId(currentLessonId + 1);
+      if (contentRef.current) {
+        contentRef.current.scrollTop = 0;
+      }
     }
   };
   
@@ -29,7 +36,7 @@ const LessonPanel: React.FC = () => {
         </span>
       </div>
       
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-auto" ref={contentRef}>
         <LessonContent lesson={currentLesson} />
       </div>
       
