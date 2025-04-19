@@ -209,63 +209,63 @@ export const upgradePlanDetails = [
 export const faqData = [
   {
     id: uuidv4(),
-    question: "What is Data Tutor?",
+    question: "What can this chatbot help me with?",
     answer:
-      "Yes! With Data Tutor, you can design and customize your chatbot, set response patterns, and integrate it into websites or applications.",
+      "This chatbot assists with data engineering tasks like:\n\n* **Data pipeline design**\n* **ETL/ELT processes**\n* **Data warehousing**\n* **Query optimization**\n* Cloud services (like AWS, GCP, Azure)\n* Tools such as *Airflow*, *Spark*, *BigQuery*, *Snowflake*, and more.",
   },
   {
     id: uuidv4(),
-    question: "How does Data Tutor work?",
+    question: "Who is this chatbot for?",
     answer:
-      "Yes! With Data Tutor, you can design and customize your chatbot, set response patterns, and integrate it into websites or applications.",
+      "It's designed for:\n\n* **Data engineers**\n* **Analysts**\n* **Developers**\n* Anyone dealing with data pipelines, infrastructure, or analytics who wants fast, accurate answers or help with technical problems.",
   },
   {
     id: uuidv4(),
-    question: "Can I create my own AI chatbot?",
+    question: "What kind of questions can I ask?",
     answer:
-      "Yes! With Data Tutor, you can design and customize your chatbot, set response patterns, and integrate it into websites or applications.",
+      "You can ask about:\n\n* How to build and optimize pipelines\n* SQL query debugging\n* Tool comparisons (e.g., *Kafka* vs. *Kinesis*)\n* Best practices for data lake vs. data warehouse\n* Python code for ETL\n* Infrastructure setup on AWS/GCP/Azure\n* etc.",
   },
   {
     id: uuidv4(),
-    question: "Is coding knowledge required to use Data Tutor?",
+    question: "Why use this chatbot instead of just ChatGPT?",
     answer:
-      "Yes! With Data Tutor, you can design and customize your chatbot, set response patterns, and integrate it into websites or applications.",
+      "Great question! While ChatGPT is general-purpose, this chatbot was **specially trained and fine-tuned** on high-quality data engineering content—including:\n\n* Top documentation\n* Real-world best practices\n* Open-source repositories\n* Expert-written guides\n\nIt's **built by data engineers, for data engineers**, so it understands your problems faster and gives more relevant, practical answers tailored to the tools and workflows you actually use.",
   },
   {
     id: uuidv4(),
-    question: "What industries can use Data Tutor?",
+    question: "Does it support code snippets?",
     answer:
-      "Yes! With Data Tutor, you can design and customize your chatbot, set response patterns, and integrate it into websites or applications.",
+      "**Yes!** You can get or paste Python, SQL, Terraform, and shell scripts. It can help you:\n\n* Write new code\n* Fix bugs in existing code\n* Explain how code works",
   },
   {
     id: uuidv4(),
-    question: "Does Data Tutor support multiple languages?",
+    question: "Is my data safe here?",
     answer:
-      "Yes! With Data Tutor, you can design and customize your chatbot, set response patterns, and integrate it into websites or applications.",
+      "**Absolutely**. We take data privacy seriously:\n\n* We don't store any of your questions or inputs\n* Everything stays private unless you choose to share it\n* No data is used for model training",
   },
   {
     id: uuidv4(),
-    question: "Can I integrate Data Tutor with my website or app?",
+    question: "How accurate are the answers?",
     answer:
-      "Yes! With Data Tutor, you can design and customize your chatbot, set response patterns, and integrate it into websites or applications.",
+      "The chatbot is powered by a leading AI model trained on massive technical datasets. However:\n\n* **Always double-check outputs before using them in production**\n* Results are based on its training data\n* For critical systems, verify with multiple sources",
   },
   {
     id: uuidv4(),
-    question: "Is there a free version of Data Tutor?",
+    question: "I'm new to data engineering. Can this bot help me learn?",
     answer:
-      "Yes! With Data Tutor, you can design and customize your chatbot, set response patterns, and integrate it into websites or applications.",
+      "**Yes!** Ask it to:\n\n* Explain complex concepts in simple terms\n* Recommend learning paths for different specializations\n* Break down topics like streaming architectures or data modeling\n* Provide beginner-friendly code examples",
   },
   {
     id: uuidv4(),
-    question: "How secure is Data Tutor?",
+    question: "Can I use this bot for interview prep?",
     answer:
-      "Yes! With Data Tutor, you can design and customize your chatbot, set response patterns, and integrate it into websites or applications.",
+      "**Totally!** You can:\n\n* Practice common interview questions\n* Get mock coding problems\n* Receive tips for technical interviews\n* Learn how to explain complex concepts clearly",
   },
   {
     id: uuidv4(),
-    question: "How do I get started with Data Tutor?",
+    question: "Will there be more features in the future?",
     answer:
-      "Yes! With Data Tutor, you can design and customize your chatbot, set response patterns, and integrate it into websites or applications.",
+      "**Yes!** We're working on:\n\n* Personalized chat memory\n* Integration with GitHub\n* Slack support\n* Access to documentation based on your tech stack",
   },
 ];
 
