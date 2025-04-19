@@ -2,49 +2,53 @@
 import React from "react";
 import AnimateHeight from "react-animate-height";
 import { PiMinus, PiPlus } from "react-icons/pi";
+import ReactMarkdown from "react-markdown";
 
 type FaqItemProps = {
+  id: string;
   question: string;
   answer: string;
-  idx: number;
-  show: number;
-  setShow: React.Dispatch<React.SetStateAction<number>>;
+  isExpanded: boolean;
+  onToggle: () => void;
+  className?: string;
 };
 
-function FaqItem({ question, answer, idx, show, setShow }: FaqItemProps) {
+function FaqItem({ question, answer, isExpanded, onToggle, className = '' }: FaqItemProps) {
   return (
     <div
-      onClick={() => setShow(idx === show ? NaN : idx)}
-      className={`cursor-pointer rounded-xl border ${
-        show === idx
+      onClick={onToggle}
+      className={`cursor-pointer rounded-xl border flex flex-col ${
+        isExpanded
           ? "bg-primaryColor border-primaryColor"
           : "border-primaryColor/30 bg-white dark:bg-n0"
-      } px-6 py-3 duration-300 `}
+      } px-6 py-3 duration-300 ${className}`}
     >
       <div className="flex items-center justify-between">
         <h6
           className={`font-medium ${
-            show === idx ? "text-white " : "text-n700 dark:text-n30"
-          } duration-300`}
+            isExpanded ? "text-black " : "text-n700 dark:text-n30"
+          } duration-300 text-justify`}
         >
-          {question}
+          <ReactMarkdown components={{
+            p: (props) => <span className="markdown text-justify" {...props} />
+          }}>{question}</ReactMarkdown>
         </h6>
         <div
-          className={`text-white  p-1 rounded-md ${
-            show === idx ? "bg-errorColor" : "bg-primaryColor"
+          className={`p-1 rounded-md ${
+            isExpanded ? "bg-errorColor text-white" : "bg-primaryColor text-white"
           }`}
         >
-          {show === idx ? <PiMinus /> : <PiPlus />}
+          {isExpanded ? <PiMinus /> : <PiPlus />}
         </div>
       </div>
-      <AnimateHeight height={show === idx ? "auto" : 0}>
-        <p
+      <AnimateHeight height={isExpanded ? "auto" : 0}>
+        <div
           className={`text-xs ${
-            show === idx ? "text-white" : ""
-          } duration-300 pt-3 border-t border-dashed border-white mt-3`}
+            isExpanded ? "text-black" : ""
+          } duration-300 pt-3 border-t border-dashed border-black mt-3 text-justify markdown`}
         >
-          {answer}
-        </p>
+          <ReactMarkdown>{answer}</ReactMarkdown>
+        </div>
       </AnimateHeight>
     </div>
   );

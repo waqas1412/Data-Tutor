@@ -5,13 +5,24 @@ import React, { useState } from "react";
 
 function SupportModal() {
   const [activeMenu, setActiveMenu] = useState(0);
-  const [show, setShow] = useState(NaN);
-  const [show2, setShow2] = useState(NaN);
+  // Replace index-based tracking with ID-based tracking
+  const [expandedFaqIds, setExpandedFaqIds] = useState<string[]>([]);
   
   // Define which tabs to show - currently only showing FAQs (index 0)
   // To restore other tabs, just add their indices to this array
   const visibleTabs = [0];
   const isSingleTab = visibleTabs.length === 1;
+  
+  // Toggle FAQ expanded/collapsed state
+  const toggleFaq = (id: string) => {
+    setExpandedFaqIds(prev => {
+      if (prev.includes(id)) {
+        return prev.filter(faqId => faqId !== id);
+      } else {
+        return [...prev, id];
+      }
+    });
+  };
   
   return (
     <div className="">
@@ -54,7 +65,7 @@ function SupportModal() {
 
       {/* Only the FAQs section will be rendered since activeMenu is forced to 0 */}
       <div className="mt-6 bg-primaryColor/5 border border-primaryColor/30 rounded-xl p-5">
-        <div className=" pb-5 border-b border-primaryColor/30">
+        <div className="pb-5 border-b border-primaryColor/30">
           <p className="text-n700 font-medium dark:text-n30">
             Frequently Asked Questions
           </p>
@@ -62,29 +73,20 @@ function SupportModal() {
             Find answers to common questions about our platform.
           </p>
         </div>
-        <div className="pt-5 grid grid-cols-12 gap-4">
-          <div className=" col-span-12 md:col-span-6 flex flex-col gap-4">
-            {faqData.slice(0, 5).map(({ id, ...props }, idx) => (
-              <FaqItem
-                key={id}
-                {...props}
-                idx={idx}
-                show={show}
-                setShow={setShow}
-              />
-            ))}
-          </div>
-          <div className="col-span-12 md:col-span-6 flex flex-col gap-4">
-            {faqData.slice(5, 10).map(({ id, ...props }, idx) => (
-              <FaqItem
-                key={id}
-                {...props}
-                idx={idx}
-                show={show2}
-                setShow={setShow2}
-              />
-            ))}
-          </div>
+        
+        {/* Grid layout for FAQ items */}
+        <div className="pt-5 grid grid-cols-1 md:grid-cols-2 gap-4 md:grid-flow-row md:auto-rows-max items-start">
+          {faqData.slice(0, 10).map((faq) => (
+            <FaqItem
+              key={faq.id}
+              id={faq.id}
+              question={faq.question}
+              answer={faq.answer}
+              isExpanded={expandedFaqIds.includes(faq.id)}
+              onToggle={() => toggleFaq(faq.id)}
+              className="self-start h-auto"
+            />
+          ))}
         </div>
       </div>
 
